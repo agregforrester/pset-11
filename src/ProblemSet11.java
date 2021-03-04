@@ -10,25 +10,21 @@ public class ProblemSet11 {
         if (start >= end) {
             return null;
         } else {
-            ArrayList<String> newArray = new ArrayList<>();
-            int index = 0;
-            String k;
-            for (int i = start; i < end; i++) {
-                if (i % 3 == 0 && i % 5 == 0) {
-                    newArray.add(index, "FizzBuzz");
-                } else if (i % 3 == 0) {
-                    newArray.add(index, "Fizz");
-                } else if (i % 5 == 0) {
-                    newArray.add(index, "Buzz");
-                } else {
-                    k = Integer.toString(i);
-                    newArray.add(k);
-                }
+            ArrayList<String> arr = new ArrayList<>();
 
-                index++;
+            for(int i = start; i < end; i++) {
+                if(i % 15 == 0) {
+                    arr.add("FizzBuzz");
+                } else if(i % 3 == 0) {
+                    arr.add("Fizz");
+                } else if(i % 5 == 0) {
+                    arr.add("Buzz");
+                } else {
+                    arr.add(String.valueOf(i));
+                }
             }
 
-            return newArray;
+            return arr;
         }
     }
 
@@ -36,27 +32,21 @@ public class ProblemSet11 {
         if (numbers == null) {
             return -1;
         } else {
-            int x;
-            int span;
-            int result = 0;
+            int max = 0;
 
-            for (int number : numbers) {
-                if (numbers.size() == 1) {
-                    result = 1;
-                } else {
-                    x = number;
-                    for (int i = numbers.size() - 1; i >= 0; i--) {
-                        if (numbers.get(i) == x) {
-                            span = i;
-                            if (span > result) {
-                                result = span;
-                            }
-                        }
-                    }
-                }
+            for(int i = 0; i < numbers.size(); i++) {
+                int j = numbers.size() - 1;
+
+                while(!numbers.get(i).equals(numbers.get(j)))
+                    j--;
+
+                int span = j - i + 1;
+
+                if(span > max)
+                    max = span;
             }
 
-            return result;
+            return max;
         }
     }
 
@@ -84,33 +74,30 @@ public class ProblemSet11 {
         if (counter3 != counter4) {
             return null;
         } else {
-            int x;
-            for (int j = 0; j < numbers.size(); j++) {
-                if (numbers.get(j) == 3) {
-                    for (int k = j + 2; k < numbers.size(); k++) {
-                        if (numbers.get(k) == 4) {
-                            x = numbers.get(k);
-                            numbers.set(k, numbers.get(j + 1));
-                            numbers.set(j + 1, x);
-                        }
-                    }
+            int i = 0;
 
-                    for (int a = 0; a < numbers.size() - 1; a++) {
-                        if (numbers.get(a) == 3 && numbers.get(a + 1) != 4) {
-                            int z;
-                            for (int b = 0; b < numbers.size(); b++) {
-                                if (numbers.get(b) == 4) {
-                                    z = numbers.get(b);
-                                    numbers.set(b, numbers.get(a + 1));
-                                    numbers.set(a + 1, z);
-                                }
-                            }
-                        }
-                    }
+            while(i < numbers.size() && numbers.get(i) != 3)
+                i++;
+
+            int j = i + 1;
+
+            while(j < numbers.size() && numbers.get(j) != 4)
+                j++;
+
+            while(i < numbers.size()) {
+                if(numbers.get(i) == 3) {
+                    int temp = numbers.get(i + 1);
+                    numbers.set(i + 1, j);
+                    numbers.set(j, temp);
+
+                    while(j < numbers.size() && numbers.get(j) != 4)
+                        j++;
                 }
+                i++;
             }
+
+            return numbers;
         }
-        return numbers;
     }
 
     public ArrayList<Integer> fix45(ArrayList<Integer> numbers) {
@@ -133,75 +120,48 @@ public class ProblemSet11 {
         if (counter4 != counter5) {
             return null;
         } else {
-            int x;
-            for (int j = 0; j < numbers.size(); j++) {
-                if (numbers.get(j) == 4) {
-                    for (int k = j + 2; k < numbers.size(); k++) {
-                        if (numbers.get(k) == 5) {
-                            x = numbers.get(k);
-                            numbers.set(k, numbers.get(j + 1));
-                            numbers.set(j + 1, x);
-                        }
-                    }
+            int i = 0;
+            int j = 0;
 
-                    for (int a = 0; a < numbers.size() - 1; a++) {
-                        if (numbers.get(a) == 4 && numbers.get(a + 1) != 5) {
-                            int z;
-                            for (int b = 0; b < numbers.size(); b++) {
-                                if (numbers.get(b) == 5) {
-                                    z = numbers.get(b);
-                                    numbers.set(b, numbers.get(a + 1));
-                                    numbers.set(a + 1, z);
-                                }
-                            }
-                        }
-                    }
+            while(j < numbers.size() && numbers.get(j) != 5)
+                j++;
+
+            while(i < numbers.size()) {
+                if(numbers.get(i) == 4) {
+                    int temp = numbers.get(i + 1);
+                    numbers.set(i + 1, j);
+                    numbers.set(j, temp);
+
+                    while((j < numbers.size() && numbers.get(j) != 5) || j == i + 1)
+                        j++;
                 }
+                i++;
             }
+
+            return numbers;
         }
-        return numbers;
     }
 
     public boolean canBalance(ArrayList<Integer> numbers) {
         if (numbers == null || numbers.size() == 0) {
             return false;
         } else {
-            int firstSum = 0;
-            int secondSum= 0;
-            for (int i = 0; i < numbers.size(); i++) {
-                if (i == 0) {
-                    firstSum = numbers.get(i);
-                    for (int k = 1; k < numbers.size(); k++) {
-                        secondSum = numbers.get(k);
-                    }
+            int first = 0;
+            int second = 0;
 
-                    if (firstSum == secondSum) {
-                        return true;
-                    } else {
-                        firstSum = 0;
-                        secondSum = 0;
-                    }
+            for (int i = 0; i < numbers.size(); i++)
+                second += numbers.get(i);
 
-                } else {
-                    for (int j = 0; j <= i; j++) {
-                        firstSum += numbers.get(j);
-                    }
+            for (int i = 0; i <= numbers.size() - 2; i++) {
+                first += numbers.get(i);
+                second -= numbers.get(i);
 
-                    for (int h = i + 1; h < numbers.size(); h++) {
-                        secondSum += numbers.get(h);
-                    }
-
-                    if (firstSum == secondSum) {
-                        return true;
-                    } else {
-                        firstSum = 0;
-                        secondSum = 0;
-                    }
-                }
-
+                if (first == second)
+                    return true;
             }
+
+            return false;
         }
-        return false;
     }
 
     public boolean linearIn(ArrayList<Integer> outer, ArrayList<Integer> inner) {
@@ -221,16 +181,23 @@ public class ProblemSet11 {
             }
         }
 
-        int counter = 0;
-        for (int j : inner) {
-            for (int k : outer) {
-                if (k == j) {
-                    counter++;
-                }
+        int i = 0;
+        int j = 0;
+
+        while(i < inner.size() && j < outer.size()) {
+            if(inner.get(i) > outer.get(j)) {
+                j++;
+            } else if(inner.get(i) < outer.get(j)) {
+                return false;
+            } else {
+                i++;
             }
         }
 
-        return counter >= inner.size();
+        if(i != inner.size())
+            return false;
+
+        return true;
 
     }
 
